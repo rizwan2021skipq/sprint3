@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
 
-from aws_cdk import core as cdk
+#from aws_cdk import core as 
+from pipeline_stack import PipelineStack
 
 # For consistency with TypeScript code, `cdk` is the preferred import name for
 # the CDK's core module.  The following line also imports it as `core` for use
@@ -30,5 +31,5 @@ InfraStackRizwan(app, "InfraStackRizwan",
 
     # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
     )
-PipelineStack(app, 'PipelineStack_rizwan', env=core.Environment(account='', region=''))
+PipelineStack(app, 'PipelineStack_rizwan', env=core.Environment(account='315997497220', region='us-east-2'))
 app.synth()

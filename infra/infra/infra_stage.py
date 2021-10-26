@@ -1,5 +1,5 @@
 from aws_cdk import core as cdk
-from infra.infra_stack import InfraStack
+from infra.infra.infra_stack import InfraStack
 
 class InfraStage(cdk.Stage):
     def __init__(self,scope:cdk.Construct, construct_id:str, **kwargs)->None:
