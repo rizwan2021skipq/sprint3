@@ -42,8 +42,8 @@ class InfraStackRizwan(cdk.Stack):
         lambda_run_rule=aws_events.Rule(self,"web_health_lambdarule", description="Periodic_lambda",schedule=lambda_schedule, targets=[event_lambda_target])
         # Getting list of websites to monitor from a S3 bucket, the function to retrieve the list from bucket has been defined
         # in a file named bucket_challenge
-        #URLS=url_retriever.url_list()
-        URLS= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
+        URLS=url_retriever.url_list()
+        #URLS= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
         # ARN of topic named alarms_testing, this topic will publish alarms and mail them to subscribers
         topic_arn=constants.TOPIC_ARN
         # Retreiving the topic "alarms_testing" from list of topics
