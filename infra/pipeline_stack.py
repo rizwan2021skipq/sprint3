@@ -7,7 +7,7 @@ class PipelineStack(core.Stack):
     def __init__(self,scope:core.Construct, id:str, **kwargs):
         super().__init__(scope,id, **kwargs)
         
-        source=pipelines.CodePipelineSource.git_hub(repo_string='/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_token')
+        source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_token')
         , trigger=cpactions.GitHubTrigger.POLL)
         
         synth=pipelines.ShellStep('synth',input=source, commands=["cd infra", "pip install -r requirements.txt", "npm install -g aws-cdk"
