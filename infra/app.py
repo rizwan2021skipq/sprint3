@@ -10,7 +10,7 @@ from pipeline_stack import PipelineStack
 # being updated to use `cdk`.  You may delete this import if you don't need it.
 from aws_cdk import core
 
-from infra.infra_stack import InfraStackRizwan
+from infra_stack import InfraStackRizwan
 
 
 app = core.App()
@@ -31,5 +31,5 @@ InfraStackRizwan(app, "InfraStackRizwan",
 
     # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
     )
-PipelineStack(app, 'PipelineStack_rizwan', env=core.Environment(account='315997497220', region='us-east-2'))
+PipelineStack(app, 'PipelineStackRizwan', env=core.Environment(account='315997497220', region='us-east-2'))
 app.synth()
