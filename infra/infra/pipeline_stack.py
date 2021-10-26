@@ -11,7 +11,7 @@ class PipelineStack(core.Stack):
         , trigger=cpactions.GitHubTrigger.POLL)
         
         synth=pipelines.ShellStep('synth',input=source, commands=["cd infra", "pip install -r requirements.txt", "npm install -g aws-cdk"
-        , "cdk synth"],primary_output_directory='/infra/cdk.out')
+        , "cdk synth"],primary_output_directory='infra/cdk.out')
         
         pipeline=pipelines.CodePipeline(self,'Pipeline', synth=synth)
         
