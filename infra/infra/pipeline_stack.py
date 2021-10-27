@@ -2,6 +2,7 @@ from aws_cdk import core
 from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import pipelines
 from infra_stage import InfraStage
+from aws_cdk.pipelines import ManualApprovalStep
 
 class PipelineStack(core.Stack):
     def __init__(self,scope:core.Construct, id:str, **kwargs):
@@ -36,11 +37,11 @@ class PipelineStack(core.Stack):
         })
         
         beta_stage=pipeline.add_stage(beta)
-        beta_stage_preapproval= beta_stage.add_pre(pipeline.ManualApprovalStep('beta_approval'))
+        beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval'))
         
         gamma_stage=pipeline.add_stage(gamma)
-        gamma_stage_preapproval= gamma_stage.add_pre(pipeline.ManualApprovalStep(' gamma_approval'))
+        gamma_stage_preapproval= gamma_stage.add_pre(ManualApprovalStep(' gamma_approval'))
         
         production_stage=pipeline.add_stage(prod)
-        production_stage_preapproval= production_stage.add_pre(pipeline.ManualApprovalStep('production_approval'))
+        production_stage_preapproval= production_stage.add_pre(ManualApprovalStep('production_approval'))
         

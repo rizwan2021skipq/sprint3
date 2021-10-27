@@ -36,11 +36,11 @@ class PipelineStack(core.Stack):
         })
         
         beta_stage=pipeline.add_stage(beta)
-        beta_stage_preapproval= beta_stage.add_pre(pipeline.ManualApprovalStep('beta_approval'))
+        beta_stage_preapproval= beta_stage.add_pre(pipelines.ManualApprovalStep('beta_approval'))
         
         gamma_stage=pipeline.add_stage(gamma)
-        gamma_stage_preapproval= gamma_stage.add_pre(pipeline.ManualApprovalStep(' gamma_approval'))
+        gamma_stage_preapproval= gamma_stage.add_pre(pipelines.ManualApprovalStep(' gamma_approval'))
         
         production_stage=pipeline.add_stage(prod)
-        production_stage_preapproval= production_stage.add_pre(pipeline.ManualApprovalStep('production_approval'))
+        production_stage_preapproval= production_stage.add_pre(pipelines.ManualApprovalStep('production_approval'))
         
