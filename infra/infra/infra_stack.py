@@ -59,17 +59,28 @@ class InfraStackRizwan(cdk.Stack):
             # Defining dimensions of metrics
             dimensions={'website name':i}
 	        # Defining availability metric
-            availability_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_AVAILABILITY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Availability_metric_of _{}'.format(i))
+            #availability_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_AVAILABILITY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Availability_metric_of _{}'.format(i))
             # Defining latency metric
-            latency_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_LATENCY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Latency_metric_of_{}'.format(i))
+            #latency_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_LATENCY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Latency_metric_of_{}'.format(i))
             
+            availability_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_AVAILABILITY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions)
             # Defining latency metric
-            alarm_latency=cloudwatch.Alarm(self, metric=latency_metric, id='PIP_URL_MONITOR_METRIC_LATENCY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
-            , evaluation_periods=1, threshold=constants.THRESHOLD_OF_LATENCY, alarm_name='Pipelined_Latency_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
+            latency_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_LATENCY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions)
+
+            # Defining latency metric
+            alarm_latency=cloudwatch.Alarm(self, metric=latency_metric, id='URL_MONITOR_METRIC_LATENCY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+            , evaluation_periods=1, threshold=constants.THRESHOLD_OF_LATENCY,  comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
             
             # Defining availability alarm
-            alarm_availability=cloudwatch.Alarm(self, metric= availability_metric,  id='PIP_URL_MONITOR_METRIC_AVAILABILITY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
-            , evaluation_periods=1, threshold=constants.THRESHOLD_OF_AVAILABILITY,alarm_name='Pipelined_Availability_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD, datapoints_to_alarm=1)
+            alarm_availability=cloudwatch.Alarm(self, metric= availability_metric,  id='URL_MONITOR_METRIC_AVAILABILITY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+            , evaluation_periods=1, threshold=constants.THRESHOLD_OF_AVAILABILITY, comparison_operator=cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD, datapoints_to_alarm=1)
+            
+            #alarm_latency=cloudwatch.Alarm(self, metric=latency_metric, id='URL_MONITOR_METRIC_LATENCY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+            #, evaluation_periods=1, threshold=constants.THRESHOLD_OF_LATENCY, alarm_name='Pipelined_Latency_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
+            
+            # Defining availability alarm
+            #alarm_availability=cloudwatch.Alarm(self, metric= availability_metric,  id='URL_MONITOR_METRIC_AVAILABILITY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+            #, evaluation_periods=1, threshold=constants.THRESHOLD_OF_AVAILABILITY,alarm_name='Pipelined_Availability_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD, datapoints_to_alarm=1)
             
             # Defining latency alarm
             alarm_latency.add_alarm_action(aws_cloudwatch_actions.SnsAction(topic))
