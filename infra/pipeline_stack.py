@@ -61,11 +61,11 @@ class PipelineStack(core.Stack):
         beta_stage=pipeline.add_stage(beta)
         beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
         
-        #gamma_stage=pipeline.add_stage(gamma)
-        #gamma_stage_preapproval= gamma_stage.add_pre(ManualApprovalStep(' gamma_approval_rizwan'))
+        gamma_stage=pipeline.add_stage(gamma)
+        gamma_stage_preapproval= gamma_stage.add_pre(ManualApprovalStep(' gamma_approval_rizwan'))
         
-        #production_stage=pipeline.add_stage(prod)
-        #production_stage_preapproval= production_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
+        production_stage=pipeline.add_stage(prod)
+        production_stage_preapproval= production_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
         
         # Create a role
 
