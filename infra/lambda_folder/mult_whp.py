@@ -78,8 +78,8 @@ def health_web(event, context):
 	# Initiating CloudWatch metrics
 	cw_metric=CloudWatchMetrics()
 	# Retrieving list of URl to monitor from a S3 bucket
-	#list_of_urls=url_retriever.url_list()
-	list_of_urls= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
+	list_of_urls=url_retriever.url_list()
+	#list_of_urls= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
 	# Initiating Pool Manager
 	http = urllib3.PoolManager()
 	# Initiating a dictionary to store latency and availability values
