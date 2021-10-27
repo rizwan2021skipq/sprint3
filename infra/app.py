@@ -31,5 +31,5 @@ InfraStackRizwan(app, "InfraStackRizwan",
 
     # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
     )
-PipelineStack(app, 'PipelineStackRizwan', env=core.Environment(account='315997497220', region='us-east-2'))
+PipelineStack(app, 'PipelineStackRizwansecond', env=core.Environment(account='315997497220', region='us-east-2'))
 app.synth()
