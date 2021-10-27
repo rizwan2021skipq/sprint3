@@ -6,4 +6,5 @@ class InfraStage(cdk.Stage):
     def __init__(self,scope:cdk.Construct, construct_id:str, **kwargs)->None:
         super().__init__(scope, construct_id, **kwargs)
         
-        infra_stack=InfraStackRizwan(self,'infrastack')
+        infra_stack=InfraStackRizwan(self,'infrastack_rizwan')
+        
