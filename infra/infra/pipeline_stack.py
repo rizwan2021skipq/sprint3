@@ -5,7 +5,7 @@ from infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
 
-class PipelineStack(core.Stack):
+class PipelineStackRizwan(core.Stack):
     def __init__(self,scope:core.Construct, id:str, **kwargs):
         super().__init__(scope,id, **kwargs)
         
@@ -20,7 +20,7 @@ class PipelineStack(core.Stack):
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3FullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonDynamoDBFullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodePipeline_FullAccess'),
-                                
+                                aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodeDeployFullAccess')
                                 
                                 
                                 ])
@@ -59,13 +59,13 @@ class PipelineStack(core.Stack):
         })
         
         beta_stage=pipeline.add_stage(beta)
-        beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
+        #beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
         
         gamma_stage=pipeline.add_stage(gamma)
-        gamma_stage_preapproval= gamma_stage.add_pre(ManualApprovalStep(' gamma_approval_rizwan'))
+        #gamma_stage_preapproval= gamma_stage.add_pre(ManualApprovalStep(' gamma_approval_rizwan'))
         
         production_stage=pipeline.add_stage(prod)
-        production_stage_preapproval= production_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
+        #production_stage_preapproval= production_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
         
         # Create a role
 

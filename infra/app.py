@@ -2,7 +2,8 @@
 import os
 
 #from aws_cdk import core as 
-from pipeline_stack import PipelineStack
+from infra import pipeline_stack
+from pipeline_stack import PipelineStackRizwan
 
 # For consistency with TypeScript code, `cdk` is the preferred import name for
 # the CDK's core module.  The following line also imports it as `core` for use
@@ -10,8 +11,9 @@ from pipeline_stack import PipelineStack
 # being updated to use `cdk`.  You may delete this import if you don't need it.
 from aws_cdk import core
 
+#from infra_stack import InfraStackRizwan
+from infra import infra_stack
 from infra_stack import InfraStackRizwan
-
 
 app = core.App()
 InfraStackRizwan(app, "InfraStackRizwan",
