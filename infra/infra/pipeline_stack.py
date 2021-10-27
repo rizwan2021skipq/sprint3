@@ -15,14 +15,32 @@ class PipelineStack(core.Stack):
         
         pipeline=pipelines.CodePipeline(self,'Pipeline', synth=synth)
         
+        
+        
         beta=InfraStage(self, "Beta", env={
             
             'account':'315997497220',
             'region':'us-east-2'
         })
         
-        beta=InfraStage(self, "Prod", env={
+        gamma=InfraStage(self, "Gamma", env={
             
             'account':'315997497220',
             'region':'us-east-2'
         })
+        
+        prod=InfraStage(self, "Production", env={
+            
+            'account':'315997497220',
+            'region':'us-east-2'
+        })
+        
+        beta_stage=pipeline.add_stage(beta)
+        beta_stage_preapproval= beta_stage.add_pre(pipeline.ManualApprovalStep('beta_approval'))
+        
+        gamma_stage=pipeline.add_stage(gamma)
+        gamma_stage_preapproval= gamma_stage.add_pre(pipeline.ManualApprovalStep(' gamma_approval'))
+        
+        production_stage=pipeline.add_stage(prod)
+        production_stage_preapproval= production_stage.add_pre(pipeline.ManualApprovalStep('production_approval'))
+        
