@@ -18,7 +18,9 @@ class PipelineStack(core.Stack):
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('CloudWatchFullAccess'),
                                 # Adding S3 Full Access
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3FullAccess'),
-                                aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonDynamoDBFullAccess')
+                                aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonDynamoDBFullAccess'),
+                                aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodePipeline_FullAccess')
+                                
                                 
                                 ])
         
