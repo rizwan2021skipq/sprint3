@@ -61,17 +61,17 @@ class PipelineStackRizwan(core.Stack):
             'region':'us-east-2'
         })
         '''
-        beta_stage=pipeline.add_stage(beta)
-        
-        pipeline.add_stage(beta_stage,
-        post=[
+        beta_stage=pipeline.add_stage(beta, post=[
         pipelines.ShellStep("Approve",
             # Use the contents of the 'integ' directory from the synth step as the input
             #input=synth.add_output_directory("integ"),
             commands=["cd infra", "cd lambda_folder", "python3 prev_unit_tests.py"]
                             )
-            ]
-                            )
+            ])
+        
+        #pipeline.add_stage(beta_stage,
+        
+         #                   )
         #beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
         
         #gamma_stage=pipeline.add_stage(gamma)
