@@ -4,6 +4,7 @@ from aws_cdk import pipelines
 from infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
+from aws_cdk import aws_codebuild as codebuild
 
 class PipelineStackRizwan(core.Stack):
     def __init__(self,scope:core.Construct, id:str, **kwargs):
@@ -27,6 +28,7 @@ class PipelineStackRizwan(core.Stack):
         
         
         role=cbRole
+        project = codebuild.PipelineProject(self, "MyProject")
         
         source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_token')
         , trigger=cpactions.GitHubTrigger.POLL)
@@ -61,7 +63,7 @@ class PipelineStackRizwan(core.Stack):
         beta_stage=pipeline.add_stage(beta)
         test_action = cpactions.CodeBuildAction(
         action_name="Tests_by_Rizwan",
-        
+        project=project,
         input=beta_stage,
         type=cpactions.CodeBuildActionType.TEST
         )
