@@ -59,6 +59,12 @@ class PipelineStackRizwan(core.Stack):
         })
         '''
         beta_stage=pipeline.add_stage(beta)
+        test_action = cpactions.CodeBuildAction(
+        action_name="Tests_by_Rizwan",
+        
+        input=beta_stage,
+        type=cpactions.CodeBuildActionType.TEST
+        )
         #beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
         
         #gamma_stage=pipeline.add_stage(gamma)
