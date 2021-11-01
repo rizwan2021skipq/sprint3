@@ -5,7 +5,7 @@ from infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
 from aws_cdk import aws_codebuild as codebuild
-from aws_cdk import aws_codeartifact as codeartifact
+
 
 class PipelineStackRizwan(core.Stack):
     def __init__(self,scope:core.Construct, id:str, **kwargs):
@@ -63,13 +63,15 @@ class PipelineStackRizwan(core.Stack):
         '''
         beta_stage=pipeline.add_stage(beta)
         
-        source_output = pipeline.Artifact()
-        test_action = cpactions.CodeBuildAction(
-        action_name="Tests_by_Rizwan",
-        project=project,
-        input=beta_stage,
-        type=cpactions.CodeBuildActionType.TEST
-        )
+        pipeline.add_stage(beta_stage,
+        post=[
+        pipelines.ShellStep("Approve",
+            # Use the contents of the 'integ' directory from the synth step as the input
+            #input=synth.add_output_directory("integ"),
+            commands=["cd infra", "cd lambda_folder", "python3 prev_unit_tests.py"]
+                            )
+            ]
+                            )
         #beta_stage_preapproval= beta_stage.add_pre(ManualApprovalStep('beta_approval_rizwan'))
         
         #gamma_stage=pipeline.add_stage(gamma)
