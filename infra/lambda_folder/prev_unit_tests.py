@@ -14,7 +14,6 @@ class Test_availability(unittest.TestCase):
         result = ml.get_availability(url, http)
         self.assertEqual(result, 1)
         
-
 class Test_latency(unittest.TestCase):
     def test_pos_latency(self):
         """
