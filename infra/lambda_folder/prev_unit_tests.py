@@ -33,5 +33,5 @@ class Test_url_list_func(unittest.TestCase):
         result = urlr.url_list()
         self.assertEquals(len(result), 4)
         
-if __name__ == '__main__':
-    unittest.main()
+#if __name__ == '__main__':
+#    unittest.main()
