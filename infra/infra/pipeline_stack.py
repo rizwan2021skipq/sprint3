@@ -5,6 +5,7 @@ from infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
 from aws_cdk import aws_codebuild as codebuild
+from aws_cdk import aws_iam
 
 
 class PipelineStackRizwan(core.Stack):
@@ -24,21 +25,18 @@ class PipelineStackRizwan(core.Stack):
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodePipeline_FullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodeDeployFullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonSSMFullAccess'),
-                                {
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Effect": "Allow",
-    "Action": "sts:AssumeRole",
-    "Resource": "arn:aws:iam::315997497220:role/UpdateAPP"
-  }]
-}
+                                
                                 
                                 
                                 
                                 ])
+                                
         
-        
-        role=cbRole
+        cbRole.add_to_policy(aws_iam.PolicyStatement(
+            resources=["*"],
+            actions=["sts:AssumeRole"]
+            ))
+        #role=cbRole
         project = codebuild.PipelineProject(self, "MyProject")
         
         source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_token')
