@@ -38,7 +38,7 @@ class PipelineStackRizwan(core.Stack):
             ))
         cbRole.add_to_policy(aws_iam.PolicyStatement(
             resources=["*"],
-            actions=["ssm:GetParameter"]
+            actions=['ssm:GetParameter']
             ))
         
         
@@ -79,7 +79,7 @@ class PipelineStackRizwan(core.Stack):
         pipelines.ShellStep("Approve",
             # Use the contents of the 'integ' directory from the synth step as the input
             #input=synth.add_output_directory("integ"),
-            commands=["cd infra", "cd lambda_folder", "python3 prev_unit_tests.py"]
+            commands=["cd infra", "cd lambda_folder", "pytest unit_tests.py", "pytest integ_test.py"]
                             )
             ])
         
