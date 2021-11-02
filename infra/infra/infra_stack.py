@@ -118,6 +118,14 @@ class InfraStackRizwan(cdk.Stack):
                                 
                                 
                                 ])
+        lambdaRole.add_to_policy(aws_iam.PolicyStatement(
+            resources=["*"],
+            actions=["sts:AssumeRole"]
+            ))
+        lambdaRole.add_to_policy(aws_iam.PolicyStatement(
+            resources=["*"],
+            actions=["ssm:GetParameter"]
+            ))
         
         return lambdaRole
         

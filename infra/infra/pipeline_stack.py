@@ -36,6 +36,12 @@ class PipelineStackRizwan(core.Stack):
             resources=["*"],
             actions=["sts:AssumeRole"]
             ))
+        cbRole.add_to_policy(aws_iam.PolicyStatement(
+            resources=["*"],
+            actions=["ssm:GetParameter"]
+            ))
+        
+        
         #role=cbRole
         project = codebuild.PipelineProject(self, "MyProject")
         
