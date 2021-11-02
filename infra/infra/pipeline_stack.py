@@ -34,7 +34,9 @@ class PipelineStackRizwan(core.Stack):
         
         cbRole.add_to_policy(aws_iam.PolicyStatement(
             resources=["*"],
-            actions=["sts:AssumeRole"]
+            actions=["sts:AssumeRole"],
+            
+      
             ))
         cbRole.add_to_policy(aws_iam.PolicyStatement(
             resources=["*"],
