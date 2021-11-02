@@ -81,7 +81,7 @@ class PipelineStackRizwan(core.Stack):
         pipelines.ShellStep("Approve",
             # Use the contents of the 'integ' directory from the synth step as the input
             #input=synth.add_output_directory("integ"),
-            commands=["cd infra", "cd lambda_folder", "pytest unit_tests.py", "pytest integ_test.py"]
+            commands=["cd infra", "pip install -r requirements.txt", "cd lambda_folder", "pytest unit_tests", "pytest integ_test"]
                             )
             ])
         
