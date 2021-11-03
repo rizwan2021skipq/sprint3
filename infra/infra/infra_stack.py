@@ -18,6 +18,8 @@ from aws_cdk import aws_iam
 from aws_cdk import aws_cloudwatch as cloudwatch
 from aws_cdk import aws_sns
 from aws_cdk import aws_cloudwatch_actions
+from aws_cdk import aws_codedeploy as codedeploy
+
 
 # Import files to be used
 from lambda_folder import constants
@@ -87,7 +89,16 @@ class InfraStackRizwan(cdk.Stack):
             # Defining availability alarm
             alarm_availability.add_alarm_action(aws_cloudwatch_actions.SnsAction(topic))
             
+        lambda_duration_metric=cloudwatch.Metric( metric_name='Duration', namespace='AWS/Lambda', dimensions={'FunctionName':web_health_lambda.function_name})
+
             
+        alarm_lambda_duration=cloudwatch.Alarm(self, metric= lambda_duration_metric,  id='LAMBDA_DURATION_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+        , evaluation_periods=1, threshold=constants.THRESHOLD_OF_DURATION, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
+        
+        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_alias', version=lambda_.addVersion(), provisioned_concurrent_executions=100, retry_attempts=2)
+        arb=codedeploy.AutoRollbackConfig(self, deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
+        codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb,
+        role=role)    
             
             
     # A function to create lambda function

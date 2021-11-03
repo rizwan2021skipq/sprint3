@@ -11,6 +11,7 @@ URL_MONITOR_METRIC_LATENCY="WEBSITE_LATENCY"
 THRESHOLD_OF_AVAILABILITY=1
 # Constant defining threshold of latency for all websites
 THRESHOLD_OF_LATENCY=0.100
+THRESHOLD_OF_DURATION=4100
 
 TOPIC_ARN='arn:aws:sns:us-east-2:315997497220:alarms_testing'
 TOPIC_NAME='alarms_testing'
