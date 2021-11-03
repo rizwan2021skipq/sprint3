@@ -97,8 +97,8 @@ class InfraStackRizwan(cdk.Stack):
         
         lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_alias', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
         arb=codedeploy.AutoRollbackConfig( deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
-        codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb,
-        role=role)    
+        codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb
+        )    
             
             
     # A function to create lambda function
