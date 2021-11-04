@@ -1,7 +1,7 @@
 from aws_cdk import core
 from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import pipelines
-from infra_stage import InfraStage
+from infra.infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
 from aws_cdk import aws_codebuild as codebuild
@@ -64,26 +64,24 @@ class PipelineStackRizwan(core.Stack):
             'account':'315997497220',
             'region':'us-east-2'
         })
-        '''
-        gamma=InfraStage(self, "GammaRizwan", env={
-            
-            'account':'315997497220',
-            'region':'us-east-2'
-        })
+        
         
         prod=InfraStage(self, "ProductionRizwan", env={
             
             'account':'315997497220',
             'region':'us-east-2'
         })
-        '''
+        
         beta_stage=pipeline.add_stage(beta, post=[
-        pipelines.ShellStep("Approve",
+        pipelines.ShellStep("TestingRizwan",
             # Use the contents of the 'integ' directory from the synth step as the input
             #input=synth.add_output_directory("integ"),
-            commands=["cd infra", "pip install -r requirements.txt",  "cd lambda_folder", "pytest unit_tests.py"]
+            commands=["cd infra", "pip install -r requirements.txt",  "pytest integ_test.py ", "pytest unit_test.py"]
                             )
             ])
+            
+        prod_stage=pipeline.add_stage(prod)
+        production_stage_preapproval= prod_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
         #"pytest integ_test"
         #pipeline.add_stage(beta_stage,
         

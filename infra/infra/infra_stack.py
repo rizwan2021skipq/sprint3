@@ -22,8 +22,8 @@ from aws_cdk import aws_codedeploy as codedeploy
 
 
 # Import files to be used
-from lambda_folder import constants
-from lambda_folder import url_retriever
+import lambda_folder.constants as constants
+import lambda_folder.url_retriever as url_retriever
 
 class InfraStackRizwan(cdk.Stack):
     # InfraStackRizwan constructor

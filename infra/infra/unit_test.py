@@ -1,8 +1,8 @@
 import pytest
-import pytest
+#import pytest
 from aws_cdk import core
-#from infra import infra_stack
-from infra_stack import InfraStackRizwan
+from infra.infra_stack import InfraStackRizwan
+#from infra_stack import InfraStackRizwan
 
 
 

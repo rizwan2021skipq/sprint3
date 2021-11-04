@@ -1,8 +1,8 @@
 import pytest
-import mult_whp as ml
+import lambda_folder.mult_whp as ml
 import urllib3
 import datetime
-import url_retriever as urlr
+import lambda_folder.url_retriever as urlr
 
 
 def test_get_availability():
