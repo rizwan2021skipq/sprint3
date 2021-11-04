@@ -1,8 +1,8 @@
 ''' This file defines handler function for Lambda function, for this project the function we are using is named health_web'''
 
 # Import files and classes form files that need to be used in the project
-import url_retriever
-from cloud_watch import CloudWatchMetrics
+import lambda_folder.url_retriever as url_retriever
+from lambda_folder.cloud_watch import CloudWatchMetrics
 
 # Import libraries that need to be used in the project
 import urllib3
