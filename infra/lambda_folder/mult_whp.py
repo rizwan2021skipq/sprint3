@@ -7,7 +7,7 @@ from lambda_folder.cloud_watch import CloudWatchMetrics
 # Import libraries that need to be used in the project
 import urllib3
 import datetime
-import constants
+import lambda_folder.constants as constants
 import json
 import boto3
 
