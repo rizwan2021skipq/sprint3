@@ -95,7 +95,7 @@ class InfraStackRizwan(cdk.Stack):
         alarm_lambda_duration=cloudwatch.Alarm(self, metric= lambda_duration_metric,  id='LAMBDA_DURATION_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
         , evaluation_periods=1, threshold=constants.THRESHOLD_OF_DURATION, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
         
-        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_alias', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
+        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_ali', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
         arb=codedeploy.AutoRollbackConfig( deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
         codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb
         )    
