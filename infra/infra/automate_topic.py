@@ -1,5 +1,5 @@
 import boto3
-import lambda_foder.constants as constants
+import lambda_folder.constants as constants
 from botocore.exceptions import ClientError
 
 #topic_arn='arn:aws:sns:us-east-2:315997497220:alarms_testing'

@@ -4,7 +4,7 @@
 import aws_cdk.aws_dynamodb as dynamodb
 from aws_cdk import core
 import boto3
-import lambda_foder.constants as constants
+import lambda_folder.constants as constants
 
 # Selecting region
 region=boto3.Session().region_name

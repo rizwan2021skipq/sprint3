@@ -1,5 +1,5 @@
 import boto3
-import lambda_foder.constants as constants
+import lambda_folder.constants as constants
 
 
 # Choose S3 as boto client

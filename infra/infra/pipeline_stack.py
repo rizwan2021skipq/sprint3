@@ -73,12 +73,14 @@ class PipelineStackRizwan(core.Stack):
         })
         
         beta_stage=pipeline.add_stage(beta, post=[
-        pipelines.ShellStep("TestingRizwan",
+        pipelines.CodeBuildStep('unittest_rizwan',  commands=["cd infra", "pip install -r requirements.txt", "cd infra", "pytest integ_test.py", "cd .."
+        , "pytest infra/unit_test.py"] , role= cbRole)
             # Use the contents of the 'integ' directory from the synth step as the input
             #input=synth.add_output_directory("integ"),
-            commands=["cd infra", "pip install -r requirements.txt", "cd infra", "pytest integ_test.py"]
-                            )
+           
+                            
             ])
+            
             
             
         prod_stage=pipeline.add_stage(prod)
