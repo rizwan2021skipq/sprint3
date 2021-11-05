@@ -1,6 +1,6 @@
-import boto3
-import lambda_folder.constants as constants
 
+import lambda_folder.constants as constants
+import boto3
 
 # Choose S3 as boto client
 s3_client=boto3.client('s3')
