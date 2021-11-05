@@ -82,7 +82,7 @@ class PipelineStackRizwan(core.Stack):
                             
             ])
             
-        makestep=beta_stage.add_pre(pipelines.CodeBuildStep('making_things',  commands=["cd infra","pip install -r requirements.txt", "python3 infra/automate_bucket.py", "python3 infra/automate_topic.py","python3 infra/automate_table.py" ]
+        makestep=beta_stage.add_pre(pipelines.CodeBuildStep('making_things',  commands=["cd infra", "pip install -r requirements.txt", "python3 automate_bucket.py", "python3 automate_topic.py","python3 automate_table.py" ]
         , role= cbRole))
         
         prod_stage=pipeline.add_stage(prod)

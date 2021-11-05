@@ -4,6 +4,24 @@ from botocore.exceptions import ClientError
 
 #topic_arn='arn:aws:sns:us-east-2:315997497220:alarms_testing'
 topic_name="automatednew"
+'''
+lambda_client = boto3.client('lambda')
+
+response = lambda_client.list_functions(
+    
+    FunctionVersion='ALL',
+   
+    MaxItems=50
+)
+tot=response['Functions']
+print(response['Functions'][0])
+print(len(response['Functions']))
+list_lambdas=[]
+x=0
+while x< len(tot):
+    list_lambdas.append(tot[x]['Handler'])
+print(list_lambdas)
+'''
 # Find  region of user
 AWS_REGION = boto3.Session().region_name
 # Choose SNS client
@@ -19,22 +37,23 @@ topic_arn=topic['TopicArn']
 email_subs_arn=sns_client.subscribe(
     TopicArn=topic_arn,
     Protocol='email',
-    Endpoint='constants.EMAIL',
+    Endpoint=constants.EMAIL,
     
     ReturnSubscriptionArn=True
 )
+
 lambda_subs_arn=sns_client.subscribe(
     TopicArn=topic_arn,
-    Protocol='lambda',
-    Endpoint='constants.LAMBDA_NAME',
+    Protocol='LAMBDA',
+    Endpoint=constants.LAMBDA_ARN,
     
     ReturnSubscriptionArn=True
 )
 
 
 
-subs=sns_client.list_subscriptions_by_topic(TopicArn=topic_arn)
-print("done")
+#subs=sns_client.list_subscriptions_by_topic(TopicArn=topic_arn)
+#print("done")
 
 #print(subs)
 #print(subs['Subscriptions'][0]['SubscriptionArn'])

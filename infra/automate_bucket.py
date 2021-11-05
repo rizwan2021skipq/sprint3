@@ -9,7 +9,7 @@ s3_resource=boto3.resource('s3')
 region=boto3.Session().region_name
 # Choose Bucket name
 bucket_name=constants.BUCKET_NAME
-file_name='infra/lambda_folder/website_data.json'
+file_name='website_data.json'
 object_name='website_data'
 response = s3_client.list_buckets()
 
