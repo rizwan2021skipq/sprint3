@@ -72,7 +72,7 @@ class PipelineStackRizwan(core.Stack):
             'region':'us-east-2'
         })
         
-        beta_stage=pipeline.add_stage(beta, 
+        beta_stage=pipeline.add_stage(beta, pre=["cd infra","pip install -r requirements.txt", "cd infra", "python3 automate_bucket.py", "python3 automate_topic.py","python3 automate_table.py" ],
         post=[
         pipelines.CodeBuildStep('unittest_rizwan',  commands=["cd infra", "pip install -r requirements.txt", "cd infra", "pytest integ_test.py", "cd .."
         , "pytest infra/unit_test.py"] , role= cbRole)
@@ -82,7 +82,7 @@ class PipelineStackRizwan(core.Stack):
                             
             ])
             
-            
+           
             
         prod_stage=pipeline.add_stage(prod)
         production_stage_preapproval= prod_stage.add_pre(ManualApprovalStep('production_approval_rizwan'))
