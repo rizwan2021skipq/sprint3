@@ -1,5 +1,5 @@
 import boto3
-import lambda_folder.constants as constants
+from lambda_folder import constants
 
 
 # Choose S3 as boto client
@@ -8,7 +8,7 @@ s3_resource=boto3.resource('s3')
 # Finding region of user
 region=boto3.Session().region_name
 # Choose Bucket name
-bucket_name="automatednewnew"
+bucket_name=constants.BUCKET_NAME
 file_name='infra/lambda_folder/website_data.json'
 object_name='website_data'
 response = s3_client.list_buckets()

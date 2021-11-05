@@ -1,5 +1,5 @@
 import boto3
-import lambda_folder.constants as constants
+from lambda_folder import constants
 from botocore.exceptions import ClientError
 
 #topic_arn='arn:aws:sns:us-east-2:315997497220:alarms_testing'
@@ -34,6 +34,7 @@ lambda_subs_arn=sns_client.subscribe(
 
 
 subs=sns_client.list_subscriptions_by_topic(TopicArn=topic_arn)
+print("done")
 
 #print(subs)
 #print(subs['Subscriptions'][0]['SubscriptionArn'])

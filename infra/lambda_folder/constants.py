@@ -11,10 +11,11 @@ URL_MONITOR_METRIC_LATENCY="WEBSITE_LATENCY"
 THRESHOLD_OF_AVAILABILITY=1
 # Constant defining threshold of latency for all websites
 THRESHOLD_OF_LATENCY=0.100
-THRESHOLD_OF_DURATION=5000
+THRESHOLD_OF_DURATION=0.1E-3
 
 TOPIC_ARN='arn:aws:sns:us-east-2:315997497220:alarms_testing'
 TOPIC_NAME='alarms_testing'
 BUCKET_NAME="rizwanbucket2021"
 FILE_IN_BUCKET='website_data.json'
+TABLE_NAME="NEWS"
 
