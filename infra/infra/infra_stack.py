@@ -9,7 +9,6 @@ from aws_cdk import core as cdk
 # Importing the required libraries
 from aws_cdk import core
 from aws_cdk import aws_lambda_event_sources
-#from aws_cdk.aws_lambda_event_sources import SnsEventSource
 from aws_cdk import aws_dynamodb as dynamodb
 from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_events
@@ -44,15 +43,13 @@ class InfraStackRizwan(cdk.Stack):
         lambda_run_rule=aws_events.Rule(self,"web_health_lambdarule", description="Periodic_lambda",schedule=lambda_schedule, targets=[event_lambda_target])
         # Getting list of websites to monitor from a S3 bucket, the function to retrieve the list from bucket has been defined
         # in a file named bucket_challenge
-        URLS=url_retriever.url_list()
+        URLS=url_retriever.url_list(constants.BUCKET_NAME, constants.FILE_IN_BUCKET)
         #URLS= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
         # ARN of topic named alarms_testing, this topic will publish alarms and mail them to subscribers
         topic_arn=constants.TOPIC_ARN
         # Retreiving the topic "alarms_testing" from list of topics
         topic=aws_sns.Topic.from_topic_arn(self, id="main alarm_topic", topic_arn=topic_arn)
-        
-        #table = dynamodb.Table(self, id="Rizwan_Table",  table_name="logging_table_rizwan",   partition_key = dynamodb.Attribute(name="id", type=dynamodb.AttributeType.STRING))    
-        
+        # Adding SNS  as action source for logger lambda
         event_source=logger_lambda.add_event_source(aws_lambda_event_sources.SnsEventSource(topic))
         
         
@@ -60,41 +57,32 @@ class InfraStackRizwan(cdk.Stack):
         for i in URLS:
             # Defining dimensions of metrics
             dimensions={'website name':i}
-	        # Defining availability metric
-            #availability_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_AVAILABILITY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Availability_metric_of _{}'.format(i))
-            # Defining latency metric
-            #latency_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_LATENCY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions, label='pip_Latency_metric_of_{}'.format(i))
             
+            # Defining metrics
             availability_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_AVAILABILITY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions)
-            # Defining latency metric
+            
             latency_metric=cloudwatch.Metric( metric_name=constants.URL_MONITOR_METRIC_LATENCY, namespace=constants.URL_MONITOR_NAMESPACE, dimensions=dimensions)
 
-            # Defining latency metric
+            # Defining Alarms
             alarm_latency=cloudwatch.Alarm(self, metric=latency_metric, id='URL_MONITOR_METRIC_LATENCY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
             , evaluation_periods=1, threshold=constants.THRESHOLD_OF_LATENCY,  comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
             
-            # Defining availability alarm
             alarm_availability=cloudwatch.Alarm(self, metric= availability_metric,  id='URL_MONITOR_METRIC_AVAILABILITY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
             , evaluation_periods=1, threshold=constants.THRESHOLD_OF_AVAILABILITY, comparison_operator=cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD, datapoints_to_alarm=1)
             
-            #alarm_latency=cloudwatch.Alarm(self, metric=latency_metric, id='URL_MONITOR_METRIC_LATENCY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
-            #, evaluation_periods=1, threshold=constants.THRESHOLD_OF_LATENCY, alarm_name='Pipelined_Latency_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
-            
-            # Defining availability alarm
-            #alarm_availability=cloudwatch.Alarm(self, metric= availability_metric,  id='URL_MONITOR_METRIC_AVAILABILITY_ALARM_{}'.format(i), treat_missing_data=cloudwatch.TreatMissingData.BREACHING
-            #, evaluation_periods=1, threshold=constants.THRESHOLD_OF_AVAILABILITY,alarm_name='Pipelined_Availability_Alarm_of__{}'.format(i), comparison_operator=cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD, datapoints_to_alarm=1)
-            
-            # Defining latency alarm
+            # Adding Alarm Actions
             alarm_latency.add_alarm_action(aws_cloudwatch_actions.SnsAction(topic))
-            # Defining availability alarm
-            alarm_availability.add_alarm_action(aws_cloudwatch_actions.SnsAction(topic))
             
+            alarm_availability.add_alarm_action(aws_cloudwatch_actions.SnsAction(topic))
+        
+        # Adding Duration Metric    
         lambda_duration_metric=cloudwatch.Metric( metric_name='Duration', namespace='AWS/Lambda', dimensions={'FunctionName':web_health_lambda.function_name})
 
-            
+        # Adding Alarm    
         alarm_lambda_duration=cloudwatch.Alarm(self, metric= lambda_duration_metric,  id='LAMBDA_DURATION_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
         , evaluation_periods=1, threshold=constants.THRESHOLD_OF_DURATION, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
         
+        # Lambda Alias and CodeDeploy
         lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_mmm', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
         arb=codedeploy.AutoRollbackConfig( deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
         codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb
@@ -116,11 +104,9 @@ class InfraStackRizwan(cdk.Stack):
         lambdaRole = aws_iam.Role(self, "lambda-role", 
             assumed_by=aws_iam.ServicePrincipal('lambda.amazonaws.com'), 
             managed_policies=[  
-                                # Adding Lamda Execution
+                                # Adding Policies
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('service-role/AWSLambdaBasicExecutionRole'),
-                                # Adding CloudWatch Full Access
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('CloudWatchFullAccess'),
-                                # Adding S3 Full Access
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonS3FullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AmazonDynamoDBFullAccess'),
                                 aws_iam.ManagedPolicy.from_aws_managed_policy_name('AWSCodePipeline_FullAccess'),

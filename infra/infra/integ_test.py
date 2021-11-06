@@ -1,8 +1,10 @@
+"Integrations tests file"
+
 import pytest
 import lambda_folder.mult_whp as ml
 import urllib3
 import datetime
-import lambda_folder.url_retriever as urlr
+
 
 
 def test_get_availability():

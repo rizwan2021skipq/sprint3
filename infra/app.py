@@ -16,8 +16,9 @@ from infra import infra_stack
 from infra_stack import InfraStackRizwan
 
 app = core.App()
+#Infrastack
 InfraStackRizwan(app, "InfraStackRizwan")
     
-    
+# Pipelinestack    
 PipelineStackRizwan(app, 'PipelineStackRizwantw', env=core.Environment(account='315997497220', region='us-east-2'))
 app.synth()

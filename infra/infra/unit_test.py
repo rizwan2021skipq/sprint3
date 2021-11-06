@@ -1,11 +1,11 @@
+''' This file contains unit tests'''
+
 import pytest
-#import pytest
 from aws_cdk import core
 from infra.infra_stack import InfraStackRizwan
-#from infra_stack import InfraStackRizwan
 
 
-
+# This test checks whether we have two lambda functions
 def test_lambda():
         """
         Test that an available website is actually available

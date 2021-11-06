@@ -1,6 +1,6 @@
-''' This file defines handler function for Lambda function, for this project the function we are using is named health_web'''
+''' This file defines handler function for Lambda function'''
 
-# Import files and classes form files that need to be used in the project
+# Import files and classes that need to be used in this file
 import lambda_folder.url_retriever as url_retriever
 from lambda_folder.cloud_watch import CloudWatchMetrics
 
@@ -14,40 +14,37 @@ import boto3
 
 
 def log_lambda(event, context):
-    region=boto3.Session().region_name
-    dynamodb = boto3.resource('dynamodb', region)
-    table=dynamodb.Table('NEWS')
-    #message = json.loads(event['Records'][0]['EventVersion'])
-    #print(event)
-    print(event["Records"][0]['Sns']['Subject'])
-    response = table.put_item(
-    Item = { 
-     'Name': event["Records"][0]['Sns']['Subject'],
-     'Email': event["Records"][0]['Sns']['Message']
-       }
-    )
-    
-    '''
-    print(event["Records"][0]['Sns']['Type'])
-    print(event["Records"][0]['Sns']['Subject'])
-    print(event["Records"][0]['Sns']['Message'])
-    print(event["Records"][0]['Sns']['Timestamp'])
-    print(event["Records"][0]['Sns']['Subject'])
-    print(event["Records"][0]['Sns']['Subject'])
-    '''
-    
-    #SnsPublishTime = event.Records[0].Sns.Timestamp;
-    #SnsTopicArn = event.Records[0].Sns.TopicArn;
-    #LambdaReceiveTime = new Date().toString();
-    #itemParams = {Item: {SnsTopicArn: {S: SnsTopicArn},
-    #SnsPublishTime: {S: SnsPublishTime}, SnsMessageId: {S: SnsMessageId},
-    #LambdaReceiveTime: {S: LambdaReceiveTime}  
-    #print(event)
-    #dynamodb = boto3.resource('dynamodb')
-    #table = dynamodb.Table('Users')    
+	
+	'''
+	Function log_lambda(event, context)
+	
+	Description  : A handler function that logs alarm data to DynamoDB table
+	                
+	Parameters   : event, context
+	
+				   event
+				   An event is a JSON-formatted document that contains data for a Lambda function to process. 
+	               The Lambda runtime converts the event to an object and passes it to your function code. 
+	               It is usually of the Python dict type. It can also be list, str, int, float, or the NoneType type.
+	               
+	               context
+	               A context object is passed to your function by Lambda at runtime. 
+	               This object provides methods and properties that provide information about the invocation, function, 
+	               and runtime environment.
+	   
 
-    #print(table.table_status)
-    #print("GARBAGE")
+	'''
+	region=boto3.Session().region_name
+	dynamodb = boto3.resource('dynamodb', region)
+	table=dynamodb.Table('NEWS')
+	response = table.put_item(
+	Item = { 
+	 'Name': event["Records"][0]['Sns']['Subject'],
+	 'Email': event["Records"][0]['Sns']['Message']
+	   }
+	)
+    
+   
 def health_web(event, context):
 	'''
 	Function health_web(event, context)
@@ -78,7 +75,7 @@ def health_web(event, context):
 	# Initiating CloudWatch metrics
 	cw_metric=CloudWatchMetrics()
 	# Retrieving list of URl to monitor from a S3 bucket
-	list_of_urls=url_retriever.url_list()
+	list_of_urls=url_retriever.url_list(constants.BUCKET_NAME, constants.FILE_IN_BUCKET)
 	#list_of_urls= ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
 	# Initiating Pool Manager
 	http = urllib3.PoolManager()

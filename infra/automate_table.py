@@ -1,4 +1,5 @@
 '''File to Create DynamoDB Table'''
+
 # Importing Libarires
 import aws_cdk.aws_dynamodb as dynamodb
 from aws_cdk import core
@@ -9,16 +10,18 @@ import lambda_folder.constants as constants
 region=boto3.Session().region_name
 client_dynamodb = boto3.client('dynamodb', region)
 
+
 response = client_dynamodb.list_tables()
 list_table=response['TableNames']
-print(list_table)
 table_name=constants.TABLE_NAME
 
+
+# Checking whether table already exists else we will create it
 if  table_name in list_table:
     pass
-    print("true")
+    
 else:
-# Creating Table named NEWS3
+
     table = dynamodb.create_table (
         TableName = constants.TABLE_NAME,
            KeySchema = [

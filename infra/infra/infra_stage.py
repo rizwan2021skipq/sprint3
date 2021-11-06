@@ -1,5 +1,6 @@
+''' This file defines a stage for a pipeline'''
+
 from aws_cdk import core as cdk
-#from infra.infra.infra_stack import InfraStack
 from infra.infra_stack import InfraStackRizwan
 
 class InfraStage(cdk.Stage):
