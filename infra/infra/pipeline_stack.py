@@ -4,7 +4,7 @@
 from aws_cdk import core
 from aws_cdk import aws_codepipeline_actions as cpactions
 from aws_cdk import pipelines
-from infra.infra_stage import InfraStage
+from infra_stage import InfraStage
 from aws_cdk.pipelines import ManualApprovalStep
 from aws_cdk import aws_iam
 from aws_cdk import aws_codebuild as codebuild
