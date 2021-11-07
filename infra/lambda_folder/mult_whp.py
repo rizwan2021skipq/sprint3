@@ -1,13 +1,13 @@
 ''' This file defines handler function for Lambda function'''
 
 # Import files and classes that need to be used in this file
-import lambda_folder.url_retriever as url_retriever
-from lambda_folder.cloud_watch import CloudWatchMetrics
+import url_retriever
+from cloud_watch import CloudWatchMetrics
 
 # Import libraries that need to be used in the project
 import urllib3
 import datetime
-import lambda_folder.constants as constants
+import constants
 import json
 import boto3
 
