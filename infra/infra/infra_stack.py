@@ -77,20 +77,21 @@ class InfraStackRizwan(cdk.Stack):
         
         # Adding Duration Metric    
         lambda_duration_metric=cloudwatch.Metric( metric_name='Duration', namespace='AWS/Lambda', dimensions={'FunctionName':web_health_lambda.function_name})
-        lambda_duration_metric=cloudwatch.Metric( metric_name='Errors', namespace='AWS/Lambda', dimensions={'FunctionName':web_health_lambda.function_name})
+        lambda_errors_metric=cloudwatch.Metric( metric_name='Errors', namespace='AWS/Lambda', dimensions={'FunctionName':web_health_lambda.function_name})
 
         # Adding Alarm    
         alarm_lambda_duration=cloudwatch.Alarm(self, metric= lambda_duration_metric,  id='LAMBDA_DURATION_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
         , evaluation_periods=1, threshold=constants.THRESHOLD_OF_DURATION, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
-        alarm_lambda_duration=cloudwatch.Alarm(self, metric= lambda_duration_metric,  id='LAMBDA_DURATION_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
-        , evaluation_periods=1, threshold=constants.THRESHOLD_OF_DURATION, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
+        
+        alarm_lambda_errors=cloudwatch.Alarm(self, metric= lambda_errors_metric,  id='LAMBDA_ERRORS_ALARM', treat_missing_data=cloudwatch.TreatMissingData.BREACHING
+        , evaluation_periods=1, threshold=constants.THRESHOLD_OF_ERRORS, comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD, datapoints_to_alarm=1)
         
         
         # Lambda Alias and CodeDeploy
-        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_nn'+construct_id, version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
+        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_00', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
         arb=codedeploy.AutoRollbackConfig( deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
-        codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration], auto_rollback=arb
-        )    
+        codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration, alarm_lambda_errors ], auto_rollback=arb)
+            
             
             
     # A function to create lambda function
