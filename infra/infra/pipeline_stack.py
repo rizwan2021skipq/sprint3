@@ -79,7 +79,7 @@ class PipelineStackRizwan(core.Stack):
         #Adding Beta Stage to Pipeline
         beta_stage=pipeline.add_stage(beta, 
         post=[
-        pipelines.CodeBuildStep('unittest_rizwan',  commands=["cd infra", "pip install -r requirements.txt", "cd infra", "pytest integ_test.py", "cd .."
+        pipelines.CodeBuildStep('unittest_rizwan',  commands=["cd infra", "pip install -r requirements.txt"
         , "pytest infra/unit_test.py"] , role= cbRole)
             
             ])
