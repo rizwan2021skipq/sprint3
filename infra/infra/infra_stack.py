@@ -18,6 +18,7 @@ from aws_cdk import aws_cloudwatch as cloudwatch
 from aws_cdk import aws_sns
 from aws_cdk import aws_cloudwatch_actions
 from aws_cdk import aws_codedeploy as codedeploy
+import random
 
 
 # Import files to be used
@@ -88,7 +89,7 @@ class InfraStackRizwan(cdk.Stack):
         
         
         # Lambda Alias and CodeDeploy
-        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_00', version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
+        lf_alias=lambda_.Alias(self, id="alias_of_web_health", alias_name='whlf_00'.join(random.choice('0123456789ABCDEF') for i in range(4)), version=web_health_lambda.current_version, provisioned_concurrent_executions=100, retry_attempts=2)
         arb=codedeploy.AutoRollbackConfig( deployment_in_alarm=True, failed_deployment=True, stopped_deployment=True)
         codedeploy.LambdaDeploymentGroup(self, id="code_deploy", alias=lf_alias, alarms=[alarm_lambda_duration, alarm_lambda_errors ], auto_rollback=arb)
             
