@@ -20,5 +20,5 @@ app = core.App()
 InfraStackRizwan(app, "InfraStackRizwan")
     
 # Pipelinestack    
-PipelineStackRizwan(app, 'PipelineStackRizwantw', env=core.Environment(account='315997497220', region='us-east-2'))
+PipelineStackRizwan(app, 'PipRizwan', env=core.Environment(account='315997497220', region='us-east-2'))
 app.synth()
