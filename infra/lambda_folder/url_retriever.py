@@ -29,15 +29,26 @@ def url_list(bucket_name, file_name):
     '''
     
     # Choose S3 resource
-    s3 = boto3.resource('s3')
+    #s3 = boto3.resource('s3')
     # Choosing object to access present in a S3 bucket by providing bucket name and the name of file present in the bucket
-    content_object = s3.Object(bucket_name, file_name)
+    #content_object = s3.Object(bucket_name, file_name)
     # Reading and decoding content of the json file
-    file_content = content_object.get()['Body'].read().decode('utf-8')
+    #file_content = content_object.get()['Body'].read().decode('utf-8')
     # Loading content of json file in variable named json_content, which itself is a dictionary
-    json_content = json.loads(file_content)
+    #json_content = json.loads(file_content)
     # Getting the list of URLS
-    url_list=json_content['URLS_TO_MONITOR']
+    #url_list=json_content['URLS_TO_MONITOR']
+    dynamodb = boto3.resource('dynamodb')
+    
+    table = dynamodb.Table('lambda-apigateway_rizwan')
+    
+    resp = table.scan(ProjectionExpression="website")
+    
+    my_list=resp['Items']
+    url_list=[]
+    for x in my_list:
+        url_list.append(x['website'])
+    #print(new_list)
     
     return url_list
 

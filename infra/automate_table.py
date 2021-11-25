@@ -22,7 +22,7 @@ if  table_name in list_table:
     
 else:
 
-    table = dynamodb.create_table (
+    table = client_dynamodb.create_table (
         TableName = constants.TABLE_NAME,
            KeySchema = [
                {

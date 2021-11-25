@@ -20,5 +20,5 @@ aws-cdk.aws_codedeploy==1.128.0
 moto==2.2.12
 coverage==6.1.1
 pylint==2.11.1
-
+aws-cdk.aws_apigateway==1.128.0
 

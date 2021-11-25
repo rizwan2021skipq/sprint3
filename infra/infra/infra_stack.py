@@ -18,6 +18,7 @@ from aws_cdk import aws_cloudwatch as cloudwatch
 from aws_cdk import aws_sns
 from aws_cdk import aws_cloudwatch_actions
 from aws_cdk import aws_codedeploy as codedeploy
+from aws_cdk import aws_apigateway as apigw
 import random
 
 
@@ -53,6 +54,20 @@ class InfraStackRizwan(cdk.Stack):
         # Adding SNS  as action source for logger lambda
         event_source=logger_lambda.add_event_source(aws_lambda_event_sources.SnsEventSource(topic))
         
+        # Lambda for pipeline
+        pipeline_api_lambda = self.create_lambda('pipeline_api_lambda', './lambda_folder','new.handler',role)
+        
+        # Granting permission to API Gateway to invoke Lmabda
+        principal = aws_iam.ServicePrincipal("apigateway.amazonaws.com")
+        pipeline_api_lambda.grant_invoke(principal)
+        
+        # Making REST API
+        api = apigw.LambdaRestApi(self, "pipeline_api",
+            handler=pipeline_api_lambda,
+            proxy=True
+        )
+        items = api.root.add_resource("Pipeline_resource_API")
+        items.add_method("POST")
         
         
         for i in URLS:
