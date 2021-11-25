@@ -21,6 +21,6 @@ TOPIC_NAME='alarms_testing'
 BUCKET_NAME="rizwanbucket2021"
 FILE_IN_BUCKET='website_data.json'
 TABLE_NAME="NEWS"
-
+api_table_name='lambda-apigateway_rizwan'
 
 

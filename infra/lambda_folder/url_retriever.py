@@ -8,7 +8,7 @@ import json
 
 
 
-def url_list(bucket_name, file_name):
+def url_list(table_name):
     '''
     Function url_list(bucket_name, file_name)
     
@@ -40,7 +40,7 @@ def url_list(bucket_name, file_name):
     #url_list=json_content['URLS_TO_MONITOR']
     dynamodb = boto3.resource('dynamodb')
     
-    table = dynamodb.Table('lambda-apigateway_rizwan')
+    table = dynamodb.Table(table_name)
     
     resp = table.scan(ProjectionExpression="website")
     
