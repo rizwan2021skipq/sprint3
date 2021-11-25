@@ -48,7 +48,7 @@ class PipelineStackRizwan(core.Stack):
         
 
         # Source Step
-        source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_token')
+        source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_tokeni')
         , trigger=cpactions.GitHubTrigger.POLL)
         
         # Build Step
@@ -85,7 +85,7 @@ class PipelineStackRizwan(core.Stack):
             ])
         
         # Adding Pre step to Beta Stage    
-        makestep=beta_stage.add_pre(pipelines.CodeBuildStep('making_things',  commands=["cd infra", "pip install -r requirements.txt", "python3 automate_bucket.py", "python3 automate_topic.py","python3 automate_table.py" ]
+        makestep=beta_stage.add_pre(pipelines.CodeBuildStep('making_things',  commands=["cd infra", "pip install -r requirements.txt"]# "python3 automate_bucket.py", "python3 automate_topic.py","python3 automate_table.py" ]
         , role= cbRole))
         
         # Adding Production Stage to pipeline
