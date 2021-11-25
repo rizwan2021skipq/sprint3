@@ -15,5 +15,5 @@ def test_lambda():
         template=app.synth().get_stack_by_name("testingstack").template
         functions=[ resource for resource in template['Resources'].values() if resource['Type']=='AWS::Lambda::Function']
         
-        assert len(functions)==2
+        assert len(functions)==3
  
