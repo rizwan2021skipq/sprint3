@@ -48,7 +48,7 @@ class PipelineStackRizwan(core.Stack):
         
 
         # Source Step
-        source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_tokeni')
+        source=pipelines.CodePipelineSource.git_hub(repo_string='rizwan2021skipq/sprint3', branch='main', authentication=core.SecretValue.secrets_manager('rizwan_github_tokenk')
         , trigger=cpactions.GitHubTrigger.POLL)
         
         # Build Step
