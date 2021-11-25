@@ -47,7 +47,10 @@ def url_list(table_name):
     my_list=resp['Items']
     url_list=[]
     for x in my_list:
-        url_list.append(x['website'])
+        if x=={}:
+            continue
+        else:
+            url_list.append(x['website'])
     #print(new_list)
     
     return url_list
